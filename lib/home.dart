@@ -44,6 +44,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   getRepeat() async {
     isRepeating = await InmatApi.auth.working();
+    setState(() {});
+
   }
 
   bool success = false;
