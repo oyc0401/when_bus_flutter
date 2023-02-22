@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.oyc0401.when_bus">
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="when_bus"
+        android:label="버스 언제와"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
