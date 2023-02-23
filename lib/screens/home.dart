@@ -13,20 +13,48 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
+PageRouteBuilder customRoute(Widget child) {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => child,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      var begin = Offset(0.0, 1.0);
+      var end = Offset.zero;
+      var curve = Curves.easeOut;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
+}
+
 class _HomeState extends State<Home> {
+  List<String> dates = ["20230222", "20230223", "20230224"];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
       body: Container(
-        child: Center(
-          child: CupertinoButton(
-            onPressed: () {
-              Navigator.push(context,
-                  CupertinoPageRoute(builder: (context) => HistoryPage()));
-            },
-            child: Text("버튼"),
-          ),
+        child: Column(
+          children: [
+            for (var date in dates)
+              CupertinoButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (builder) => HistoryPage(date: date),
+                      fullscreenDialog: true,
+                    ),
+                  );
+                },
+                child: Text(date),
+              ),
+          ],
         ),
       ),
     );

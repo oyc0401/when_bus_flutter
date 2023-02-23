@@ -24,6 +24,10 @@ mixin _$BusModel {
   String get departAt => throw _privateConstructorUsedError;
   String get createAt => throw _privateConstructorUsedError;
   int get busId => throw _privateConstructorUsedError;
+  int get busInterval => throw _privateConstructorUsedError;
+  String get busNum => throw _privateConstructorUsedError;
+  String get message => throw _privateConstructorUsedError;
+  bool get isLast => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -36,7 +40,15 @@ abstract class $BusModelCopyWith<$Res> {
   factory $BusModelCopyWith(BusModel value, $Res Function(BusModel) then) =
       _$BusModelCopyWithImpl<$Res, BusModel>;
   @useResult
-  $Res call({int id, String departAt, String createAt, int busId});
+  $Res call(
+      {int id,
+      String departAt,
+      String createAt,
+      int busId,
+      int busInterval,
+      String busNum,
+      String message,
+      bool isLast});
 }
 
 /// @nodoc
@@ -56,6 +68,10 @@ class _$BusModelCopyWithImpl<$Res, $Val extends BusModel>
     Object? departAt = null,
     Object? createAt = null,
     Object? busId = null,
+    Object? busInterval = null,
+    Object? busNum = null,
+    Object? message = null,
+    Object? isLast = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -74,6 +90,22 @@ class _$BusModelCopyWithImpl<$Res, $Val extends BusModel>
           ? _value.busId
           : busId // ignore: cast_nullable_to_non_nullable
               as int,
+      busInterval: null == busInterval
+          ? _value.busInterval
+          : busInterval // ignore: cast_nullable_to_non_nullable
+              as int,
+      busNum: null == busNum
+          ? _value.busNum
+          : busNum // ignore: cast_nullable_to_non_nullable
+              as String,
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+      isLast: null == isLast
+          ? _value.isLast
+          : isLast // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -85,7 +117,15 @@ abstract class _$$_BusModelCopyWith<$Res> implements $BusModelCopyWith<$Res> {
       __$$_BusModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String departAt, String createAt, int busId});
+  $Res call(
+      {int id,
+      String departAt,
+      String createAt,
+      int busId,
+      int busInterval,
+      String busNum,
+      String message,
+      bool isLast});
 }
 
 /// @nodoc
@@ -103,6 +143,10 @@ class __$$_BusModelCopyWithImpl<$Res>
     Object? departAt = null,
     Object? createAt = null,
     Object? busId = null,
+    Object? busInterval = null,
+    Object? busNum = null,
+    Object? message = null,
+    Object? isLast = null,
   }) {
     return _then(_$_BusModel(
       id: null == id
@@ -121,6 +165,22 @@ class __$$_BusModelCopyWithImpl<$Res>
           ? _value.busId
           : busId // ignore: cast_nullable_to_non_nullable
               as int,
+      busInterval: null == busInterval
+          ? _value.busInterval
+          : busInterval // ignore: cast_nullable_to_non_nullable
+              as int,
+      busNum: null == busNum
+          ? _value.busNum
+          : busNum // ignore: cast_nullable_to_non_nullable
+              as String,
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+      isLast: null == isLast
+          ? _value.isLast
+          : isLast // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -132,7 +192,11 @@ class _$_BusModel implements _BusModel {
       {required this.id,
       required this.departAt,
       required this.createAt,
-      required this.busId});
+      required this.busId,
+      required this.busInterval,
+      required this.busNum,
+      required this.message,
+      required this.isLast});
 
   factory _$_BusModel.fromJson(Map<String, dynamic> json) =>
       _$$_BusModelFromJson(json);
@@ -145,10 +209,18 @@ class _$_BusModel implements _BusModel {
   final String createAt;
   @override
   final int busId;
+  @override
+  final int busInterval;
+  @override
+  final String busNum;
+  @override
+  final String message;
+  @override
+  final bool isLast;
 
   @override
   String toString() {
-    return 'BusModel(id: $id, departAt: $departAt, createAt: $createAt, busId: $busId)';
+    return 'BusModel(id: $id, departAt: $departAt, createAt: $createAt, busId: $busId, busInterval: $busInterval, busNum: $busNum, message: $message, isLast: $isLast)';
   }
 
   @override
@@ -161,12 +233,18 @@ class _$_BusModel implements _BusModel {
                 other.departAt == departAt) &&
             (identical(other.createAt, createAt) ||
                 other.createAt == createAt) &&
-            (identical(other.busId, busId) || other.busId == busId));
+            (identical(other.busId, busId) || other.busId == busId) &&
+            (identical(other.busInterval, busInterval) ||
+                other.busInterval == busInterval) &&
+            (identical(other.busNum, busNum) || other.busNum == busNum) &&
+            (identical(other.message, message) || other.message == message) &&
+            (identical(other.isLast, isLast) || other.isLast == isLast));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, departAt, createAt, busId);
+  int get hashCode => Object.hash(runtimeType, id, departAt, createAt, busId,
+      busInterval, busNum, message, isLast);
 
   @JsonKey(ignore: true)
   @override
@@ -187,7 +265,11 @@ abstract class _BusModel implements BusModel {
       {required final int id,
       required final String departAt,
       required final String createAt,
-      required final int busId}) = _$_BusModel;
+      required final int busId,
+      required final int busInterval,
+      required final String busNum,
+      required final String message,
+      required final bool isLast}) = _$_BusModel;
 
   factory _BusModel.fromJson(Map<String, dynamic> json) = _$_BusModel.fromJson;
 
@@ -199,6 +281,14 @@ abstract class _BusModel implements BusModel {
   String get createAt;
   @override
   int get busId;
+  @override
+  int get busInterval;
+  @override
+  String get busNum;
+  @override
+  String get message;
+  @override
+  bool get isLast;
   @override
   @JsonKey(ignore: true)
   _$$_BusModelCopyWith<_$_BusModel> get copyWith =>

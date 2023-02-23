@@ -11,6 +11,10 @@ _$_BusModel _$$_BusModelFromJson(Map<String, dynamic> json) => _$_BusModel(
       departAt: json['departAt'] as String,
       createAt: json['createAt'] as String,
       busId: json['busId'] as int,
+      busInterval: json['busInterval'] as int,
+      busNum: json['busNum'] as String,
+      message: json['message'] as String,
+      isLast: json['isLast'] as bool,
     );
 
 Map<String, dynamic> _$$_BusModelToJson(_$_BusModel instance) =>
@@ -19,4 +23,8 @@ Map<String, dynamic> _$$_BusModelToJson(_$_BusModel instance) =>
       'departAt': instance.departAt,
       'createAt': instance.createAt,
       'busId': instance.busId,
+      'busInterval': instance.busInterval,
+      'busNum': instance.busNum,
+      'message': instance.message,
+      'isLast': instance.isLast,
     };

@@ -16,6 +16,10 @@ class BusModel with _$BusModel {
     required String departAt,
     required String createAt,
     required int busId,
+    required int busInterval,
+    required String busNum,
+    required String message,
+    required bool isLast,
   }) = _BusModel;
 
   factory BusModel.fromJson(Map<String, dynamic> json) =>
