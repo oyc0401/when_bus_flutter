@@ -1,18 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'bus_model.dart';
-import 'service/bus_api/inmat_api_library.dart';
-import 'utils/colorss.dart';
+import '../models/bus_model.dart';
+import '../service/bus_api/inmat_api_library.dart';
+import '../utils/colorss.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class HistoryPage extends StatefulWidget {
+  const HistoryPage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HistoryPage> createState() => _HistoryPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HistoryPageState extends State<HistoryPage> {
   @override
   void initState() {
     // TODO: implement initState
@@ -45,7 +45,6 @@ class _MyHomePageState extends State<MyHomePage> {
   getRepeat() async {
     isRepeating = await InmatApi.auth.working();
     setState(() {});
-
   }
 
   bool success = false;
@@ -71,29 +70,29 @@ class _MyHomePageState extends State<MyHomePage> {
                 : Circle(color: Colors.redAccent)
           ],
         ),
-        leading: IconButton(
-          onPressed: () {
-            dateTime = dateTime.add(const Duration(days: -1));
-            init();
-          },
-          icon: const Icon(
-            Icons.arrow_back,
-          ),
-        ),
-        actions: [
-          DateFormat('yyyyMMdd').format(now) ==
-                  DateFormat('yyyyMMdd').format(dateTime)
-              ? Container()
-              : IconButton(
-                  onPressed: () {
-                    dateTime = dateTime.add(const Duration(days: 1));
-                    init();
-                  },
-                  icon: const Icon(
-                    Icons.arrow_forward,
-                  ),
-                ),
-        ],
+        // leading: IconButton(
+        //   onPressed: () {
+        //     dateTime = dateTime.add(const Duration(days: -1));
+        //     init();
+        //   },
+        //   icon: const Icon(
+        //     Icons.arrow_back,
+        //   ),
+        // ),
+        // actions: [
+        //   DateFormat('yyyyMMdd').format(now) ==
+        //           DateFormat('yyyyMMdd').format(dateTime)
+        //       ? Container()
+        //       : IconButton(
+        //           onPressed: () {
+        //             dateTime = dateTime.add(const Duration(days: 1));
+        //             init();
+        //           },
+        //           icon: const Icon(
+        //             Icons.arrow_forward,
+        //           ),
+        //         ),
+        // ],
       ),
       body: success ? body() : Container(),
     );
