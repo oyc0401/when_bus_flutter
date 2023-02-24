@@ -88,13 +88,13 @@ class _HistoryPageState extends State<HistoryPage> {
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(
+            const SizedBox(
               width: 18,
             ),
             Text(DateFormat('yyyy년 MM월 dd일').format(dateTime)),
             isRepeating
-                ? Circle(color: Colors.greenAccent)
-                : Circle(color: Colors.redAccent)
+                ? const Circle(color: Colors.greenAccent)
+                : const Circle(color: Colors.redAccent)
           ],
         ),
       ),
@@ -102,11 +102,12 @@ class _HistoryPageState extends State<HistoryPage> {
         physics: const ClampingScrollPhysics(),
         children: [
           alertSection(),
-          for (int i = 0; i < list.length; i++)
+          for (BusModel bus in list)
             TimeBar(
-              bus: list[i],
-              last: list[i].isLast,
-              busId: list[i].busId,
+              departAt: bus.departAt,
+              busInterval: bus.busInterval,
+              last: bus.isLast,
+              busId: bus.busId,
             ),
           defaultTime(),
         ],
@@ -115,57 +116,87 @@ class _HistoryPageState extends State<HistoryPage> {
   }
 
   Widget alertSection() {
-    return lastExist
-        ? Container()
-        : Container(
-            height: 50,
-            color: Color(0xffEEEEEE),
-            child: Center(
-              child: Text(
-                "버스가 잠시후 도착합니다.",
-                style: const TextStyle(
-                    fontSize: 16,
-                    color: Colorss.text1,
-                    fontWeight: FontWeight.normal),
-              ),
-            ),
-          );
+    if (lastExist) {
+      return Container();
+    }
+
+    int expect = 0;
+    if (!firstExist) {
+      DateTime now = DateTime.now();
+      expect =
+          Duration(hours: 4 - now.hour, minutes: 40 - now.minute).inMinutes;
+    } else {
+      DateTime dateTime =
+          DateTime.parse(list.elementAt(list.length - 1).departAt);
+
+      dateTime.add(Duration(minutes: 70));
+
+      DateTime now = DateTime.now();
+
+      Duration d = now.difference(dateTime);
+
+      expect = d.inMinutes;
+    }
+
+    String timeString() {
+      if (expect <= 60) {
+        return "${expect % 60}분";
+      }
+
+      return "${expect ~/ 60}시간 ${expect % 60}분";
+    }
+
+    return Container(
+      height: 55,
+      color: const Color(0xffEEEEEE),
+      child: Center(
+        child: Text(
+          // \n예상 도착시간: ${timeString()} 후
+          "버스가 운행 중 입니다.",
+          style: const TextStyle(
+            fontSize: 16,
+            color: Colorss.text1,
+            fontWeight: FontWeight.normal,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
   }
 
   Widget defaultTime() {
     return firstExist
         ? Container()
         : TimeBar(
-            bus: BusModel(
-              id: 0,
-              departAt: "${widget.date} 04:40:00",
-              createAt: "${widget.date} 04:40:00",
-              busId: 0,
-              busInterval: 0,
-              busNum: '',
-              message: '',
-              isLast: false,
-            ),
-            last: false,
+            departAt: "${widget.date} 04:40:00",
+            busInterval: 0,
           );
   }
 }
 
 class TimeBar extends StatelessWidget {
-  const TimeBar({Key? key, required this.bus, required this.last, this.busId})
-      : super(key: key);
+  const TimeBar({
+    Key? key,
+    this.busId,
+    required this.busInterval,
+    required this.departAt,
+    this.last = false,
+  }) : super(key: key);
 
-  final BusModel bus;
   final bool last;
+
+  final String departAt;
+
   final int? busId;
+  final int busInterval;
 
   String get time {
-    DateTime dateTime = DateTime.parse(bus.departAt);
+    DateTime dateTime = DateTime.parse(departAt);
     return DateFormat('HH시 mm분').format(dateTime);
   }
 
   bool get first {
-    DateTime startTime = DateTime.parse(bus.departAt);
+    DateTime startTime = DateTime.parse(departAt);
     if (startTime.hour < 5) {
       return true;
     }
@@ -188,62 +219,61 @@ class TimeBar extends StatelessWidget {
                     color: Colorss.text1,
                     fontWeight: FontWeight.normal),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 6,
               ),
               first
-                  ? Text(
+                  ? const Text(
                       '첫차',
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontSize: 16,
                           color: Colors.redAccent,
                           fontWeight: FontWeight.normal),
                     )
                   : Container(),
               last
-                  ? Text(
+                  ? const Text(
                       '막차',
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontSize: 16,
                           color: Colors.blueAccent,
                           fontWeight: FontWeight.normal),
                     )
                   : Container(),
-              Spacer(),
+              const Spacer(),
               busIdText(),
             ],
           ),
-          SizedBox(
-            height: 3,
-          ),
-          Row(
-            children: [
-              first
-                  ? Container()
-                  : Text(
-                      '${bus.busInterval}분',
-                      style: const TextStyle(
-                          fontSize: 16,
-                          color: Colorss.text2,
-                          fontWeight: FontWeight.normal),
-                    ),
-            ],
-          ),
+          intervalSection(),
         ],
       ),
     );
+  }
 
-    // return ListTile(
-    //   title:,
-    //   subtitle: first ? null :
-    // );
+  Widget intervalSection() {
+    return Column(
+      children: [
+        const SizedBox(
+          height: 3,
+        ),
+        first
+            ? Container()
+            : Text(
+                '$busInterval분',
+                style: const TextStyle(
+                    fontSize: 16,
+                    color: Colorss.text2,
+                    fontWeight: FontWeight.normal),
+              ),
+      ],
+    );
   }
 
   Widget busIdText() {
     return busId == null
         ? Container()
         : Text(
-            '${bus.busId % 10000}',
+            '${busId! % 10000}',
             style: const TextStyle(
                 fontSize: 16,
                 color: Colorss.text2,
@@ -261,7 +291,7 @@ class Circle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-      margin: EdgeInsets.only(left: 12),
+      margin: const EdgeInsets.only(left: 12),
       width: 6,
       height: 6,
     );
