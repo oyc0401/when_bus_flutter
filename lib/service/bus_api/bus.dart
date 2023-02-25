@@ -11,6 +11,18 @@ class AuthApi {
     return (await inMatHttp.execute()).cast<Map<String,dynamic>>();
   }
 
+  /// 가능한 시간 api
+  Future<List<String>> availableTimes() async {
+    InMatHttp inMatHttp = InMatHttp(
+      Http.get,
+      message: "가능한 시간 불러오기",
+      path: "/availableTimes",
+    );
+    return await (await inMatHttp.execute()).cast<String>();
+  }
+
+
+
   ///동기화 시작 API
   Future<Map<String, dynamic>> startRepeat() async {
     InMatHttp inMatHttp = InMatHttp(

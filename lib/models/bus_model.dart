@@ -19,6 +19,7 @@ class BusModel with _$BusModel {
     required int busInterval,
     required String busNum,
     required String message,
+    required bool isFirst,
     required bool isLast,
   }) = _BusModel;
 

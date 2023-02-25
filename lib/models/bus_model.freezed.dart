@@ -27,6 +27,7 @@ mixin _$BusModel {
   int get busInterval => throw _privateConstructorUsedError;
   String get busNum => throw _privateConstructorUsedError;
   String get message => throw _privateConstructorUsedError;
+  bool get isFirst => throw _privateConstructorUsedError;
   bool get isLast => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -48,6 +49,7 @@ abstract class $BusModelCopyWith<$Res> {
       int busInterval,
       String busNum,
       String message,
+      bool isFirst,
       bool isLast});
 }
 
@@ -71,6 +73,7 @@ class _$BusModelCopyWithImpl<$Res, $Val extends BusModel>
     Object? busInterval = null,
     Object? busNum = null,
     Object? message = null,
+    Object? isFirst = null,
     Object? isLast = null,
   }) {
     return _then(_value.copyWith(
@@ -102,6 +105,10 @@ class _$BusModelCopyWithImpl<$Res, $Val extends BusModel>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
+      isFirst: null == isFirst
+          ? _value.isFirst
+          : isFirst // ignore: cast_nullable_to_non_nullable
+              as bool,
       isLast: null == isLast
           ? _value.isLast
           : isLast // ignore: cast_nullable_to_non_nullable
@@ -125,6 +132,7 @@ abstract class _$$_BusModelCopyWith<$Res> implements $BusModelCopyWith<$Res> {
       int busInterval,
       String busNum,
       String message,
+      bool isFirst,
       bool isLast});
 }
 
@@ -146,6 +154,7 @@ class __$$_BusModelCopyWithImpl<$Res>
     Object? busInterval = null,
     Object? busNum = null,
     Object? message = null,
+    Object? isFirst = null,
     Object? isLast = null,
   }) {
     return _then(_$_BusModel(
@@ -177,6 +186,10 @@ class __$$_BusModelCopyWithImpl<$Res>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
+      isFirst: null == isFirst
+          ? _value.isFirst
+          : isFirst // ignore: cast_nullable_to_non_nullable
+              as bool,
       isLast: null == isLast
           ? _value.isLast
           : isLast // ignore: cast_nullable_to_non_nullable
@@ -196,6 +209,7 @@ class _$_BusModel implements _BusModel {
       required this.busInterval,
       required this.busNum,
       required this.message,
+      required this.isFirst,
       required this.isLast});
 
   factory _$_BusModel.fromJson(Map<String, dynamic> json) =>
@@ -216,11 +230,13 @@ class _$_BusModel implements _BusModel {
   @override
   final String message;
   @override
+  final bool isFirst;
+  @override
   final bool isLast;
 
   @override
   String toString() {
-    return 'BusModel(id: $id, departAt: $departAt, createAt: $createAt, busId: $busId, busInterval: $busInterval, busNum: $busNum, message: $message, isLast: $isLast)';
+    return 'BusModel(id: $id, departAt: $departAt, createAt: $createAt, busId: $busId, busInterval: $busInterval, busNum: $busNum, message: $message, isFirst: $isFirst, isLast: $isLast)';
   }
 
   @override
@@ -238,13 +254,14 @@ class _$_BusModel implements _BusModel {
                 other.busInterval == busInterval) &&
             (identical(other.busNum, busNum) || other.busNum == busNum) &&
             (identical(other.message, message) || other.message == message) &&
+            (identical(other.isFirst, isFirst) || other.isFirst == isFirst) &&
             (identical(other.isLast, isLast) || other.isLast == isLast));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, departAt, createAt, busId,
-      busInterval, busNum, message, isLast);
+      busInterval, busNum, message, isFirst, isLast);
 
   @JsonKey(ignore: true)
   @override
@@ -269,6 +286,7 @@ abstract class _BusModel implements BusModel {
       required final int busInterval,
       required final String busNum,
       required final String message,
+      required final bool isFirst,
       required final bool isLast}) = _$_BusModel;
 
   factory _BusModel.fromJson(Map<String, dynamic> json) = _$_BusModel.fromJson;
@@ -287,6 +305,8 @@ abstract class _BusModel implements BusModel {
   String get busNum;
   @override
   String get message;
+  @override
+  bool get isFirst;
   @override
   bool get isLast;
   @override

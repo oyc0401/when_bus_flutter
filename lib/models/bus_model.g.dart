@@ -14,6 +14,7 @@ _$_BusModel _$$_BusModelFromJson(Map<String, dynamic> json) => _$_BusModel(
       busInterval: json['busInterval'] as int,
       busNum: json['busNum'] as String,
       message: json['message'] as String,
+      isFirst: json['isFirst'] as bool,
       isLast: json['isLast'] as bool,
     );
 
@@ -26,5 +27,6 @@ Map<String, dynamic> _$$_BusModelToJson(_$_BusModel instance) =>
       'busInterval': instance.busInterval,
       'busNum': instance.busNum,
       'message': instance.message,
+      'isFirst': instance.isFirst,
       'isLast': instance.isLast,
     };

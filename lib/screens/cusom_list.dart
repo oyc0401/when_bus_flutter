@@ -100,7 +100,8 @@ class _CustomScrollViewDemoPageState extends State<CustomScrollViewDemoPage> {
             (ctx, index) {
           _sliverListCtx ??= ctx;
           return AnimatedContainer(
-            height: _hitIndexForCtx1==index ? 80 : 50,
+            // height: _hitIndexForCtx1==index ? 80 : 50,
+            height: 80,
             // color: _hitIndexForCtx1 == index ? Colors.red : Colors.black12,
             duration: const Duration(seconds: 1),
             child: Center(
@@ -108,7 +109,8 @@ class _CustomScrollViewDemoPageState extends State<CustomScrollViewDemoPage> {
                 "index -- $index",
                 style: TextStyle(
                   color:
-                  _hitIndexForCtx1 == index ? Colors.white : Colors.black,
+                  // _hitIndexForCtx1 == index ? Colors.white :
+                  Colors.black,
                 ),
               ),
             ),

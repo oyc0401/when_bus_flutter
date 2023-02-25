@@ -30,7 +30,7 @@ class _HistoryPageState extends State<HistoryPage> {
   bool lastExist = false;
 
   void init() async {
-    success = false;
+    isSuccess = false;
 
     String formattedDate = DateFormat('yyyyMMdd').format(dateTime);
 
@@ -47,7 +47,7 @@ class _HistoryPageState extends State<HistoryPage> {
 
     setState(() {
       list = buses.reversed.toList();
-      success = true;
+      isSuccess = true;
     });
   }
 
@@ -74,7 +74,7 @@ class _HistoryPageState extends State<HistoryPage> {
     setState(() {});
   }
 
-  bool success = false;
+  bool isSuccess = false;
 
   bool isRepeating = false;
 
@@ -98,20 +98,23 @@ class _HistoryPageState extends State<HistoryPage> {
           ],
         ),
       ),
-      body: ListView(
-        physics: const ClampingScrollPhysics(),
-        children: [
-          alertSection(),
-          for (BusModel bus in list)
-            TimeBar(
-              departAt: bus.departAt,
-              busInterval: bus.busInterval,
-              last: bus.isLast,
-              busId: bus.busId,
-            ),
-          defaultTime(),
-        ],
-      ),
+      body: isSuccess
+          ? ListView(
+              physics: const ClampingScrollPhysics(),
+              children: [
+                alertSection(),
+                for (BusModel bus in list)
+                  TimeBar(
+                    departAt: bus.departAt,
+                    busInterval: bus.busInterval,
+                    last: bus.isLast,
+                    first: bus.isFirst,
+                    busId: bus.busId,
+                  ),
+                defaultTime(),
+              ],
+            )
+          : Center(),
     );
   }
 
@@ -169,6 +172,7 @@ class _HistoryPageState extends State<HistoryPage> {
         ? Container()
         : TimeBar(
             departAt: "${widget.date} 04:40:00",
+            first: true,
             busInterval: 0,
           );
   }
@@ -181,8 +185,10 @@ class TimeBar extends StatelessWidget {
     required this.busInterval,
     required this.departAt,
     this.last = false,
+    required this.first,
   }) : super(key: key);
 
+  final bool first;
   final bool last;
 
   final String departAt;
@@ -193,14 +199,6 @@ class TimeBar extends StatelessWidget {
   String get time {
     DateTime dateTime = DateTime.parse(departAt);
     return DateFormat('HH시 mm분').format(dateTime);
-  }
-
-  bool get first {
-    DateTime startTime = DateTime.parse(departAt);
-    if (startTime.hour < 5) {
-      return true;
-    }
-    return false;
   }
 
   @override

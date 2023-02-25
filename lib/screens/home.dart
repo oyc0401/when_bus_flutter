@@ -34,125 +34,119 @@ PageRouteBuilder customRoute(Widget child) {
 }
 
 class _HomeState extends State<Home> {
-  List<String> get reverseDates {
-    List<String> dates = [
-      "20230222",
-      "20230223",
-      "20230224",
-    ];
+  final ScrollController _scrollController = ScrollController();
 
-    return dates.reversed.toList();
-  }
+  int currentIndex = 0;
 
-  List<GlobalKey> _keyList = List.generate(3, (index) => GlobalKey());
+  late double paddingBottom;
+  final double itemHeight = 100.0; // 요소 높이
 
-  int position = 0;
+  List<String> dates = [];
+
+  List<String> get reverseDates => dates.reversed.toList();
+
+  bool isSuccess = false;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    init();
     _scrollController.addListener(() {
-      position = _getIndexForCenterElement();
-      setState(() {
+      currentIndex = _getIndexForCenterElement();
 
-      });
-      // _getIndexForCenterElement();
-      // print('id: ${_getIndexForCenterElement()}');
+      setState(() {});
     });
+  }
+
+  init() async {
+    dates = await InmatApi.auth.availableTimes();
+    isSuccess = true;
+    setState(() {});
+  }
+
+  int _getIndexForCenterElement() {
+    int index = (_scrollController.offset / itemHeight).round();
+
+    if (index < 0) {
+      index = 0;
+    }
+    if (index >= reverseDates.length) {
+      index = reverseDates.length - 1;
+    }
+
+    return index;
+  }
+
+  double _previousPosition = 0;
+
+  double _getScrollSpeed() {
+    final currentPosition = _scrollController.position.pixels;
+    double speed = (currentPosition - _previousPosition).abs();
+    _previousPosition = currentPosition;
+    // print('Scroll speed: $speed');
+
+    return speed;
   }
 
   @override
   Widget build(BuildContext context) {
-    double itemHeight = 100.0; // 요소 높이
     double screenHeight = MediaQuery.of(context).size.height;
     double halfScreenHeight = screenHeight / 2;
     double halfItemHeight = itemHeight / 2;
-    double paddingTop = halfScreenHeight - halfItemHeight;
-    double paddingBottom = halfScreenHeight - halfItemHeight;
+    paddingBottom = halfScreenHeight - halfItemHeight;
+
+    double width = MediaQuery.of(context).size.width;
+    if (!isSuccess) {
+      return Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
 
     return Scaffold(
-      body: ListView(
+      body: SingleChildScrollView(
         reverse: true,
-        padding: EdgeInsets.only(top: paddingTop, bottom: paddingBottom),
+        padding: EdgeInsets.only(top: paddingBottom, bottom: paddingBottom),
         controller: _scrollController,
-        children: [
-          for (int i = 0; i < reverseDates.length; i++)
-            Padding(
-              key: _keyList[i],
-              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (builder) => HistoryPage(date: reverseDates[i]),
-                      fullscreenDialog: true,
-                    ),
-                  );
-                },
-                child: Container(
-                    height: 100 - 16 - 16,
-                    decoration: BoxDecoration(
-                      color: position == i ? Colors.blue : Color(0xffd9d9d9),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Center(child: Text(reverseDates[i]))),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            for (int i = reverseDates.length - 1; i >= 0; i--)
+              // for (int i = 0; i < reverseDates.length; i++)
+              Padding(
+                // key: _keyList[i],
+                padding:
+                    const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (builder) =>
+                            HistoryPage(date: reverseDates[i]),
+                        fullscreenDialog: true,
+                      ),
+                    );
+                  },
+                  child: AnimatedContainer(
+                      duration: Duration(milliseconds: 100),
+                      height:
+                          currentIndex == i ? itemHeight : itemHeight - 16 - 16,
+                      width: currentIndex == i ? 10000 : width - 80,
+                      decoration: BoxDecoration(
+                        color:
+                            // currentIndex == i ? Colors.blue :
+                            Color(0xffd9d9d9),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Center(child: Text(reverseDates[i]))),
+                ),
               ),
-            ),
-        ],
-      ),
-      floatingActionButton: InkWell(
-        onTap: () {
-          print('id: ${_getIndexForCenterElement()}');
-          // Navigator.push(
-          //     context,
-          //     MaterialPageRoute(
-          //         builder: (context) => CustomScrollViewDemoPage()));
-        },
-        child: Container(
-          width: 30,
-          height: 30,
-          color: Colors.yellowAccent,
+          ],
         ),
       ),
     );
-  }
-
-  final ScrollController _scrollController = ScrollController();
-
-  int _getIndexForCenterElement() {
-    double itemHeight = 100.0; // 요소 높이
-    double screenHeight = MediaQuery.of(context).size.height;
-    double halfScreenHeight = screenHeight / 2;
-    double halfItemHeight = itemHeight / 2;
-    double paddingTop = halfScreenHeight - halfItemHeight;
-    double paddingBottom = halfScreenHeight - halfItemHeight;
-
-    final double scrollOffset = _scrollController.position.pixels;
-    final RenderBox renderBox = context.findRenderObject() as RenderBox;
-    final double listViewHeight = renderBox.size.height;
-    final double middle = listViewHeight / 2;
-    final double scrollPosition = scrollOffset + middle;
-
-    print("paddingBottom: ${paddingBottom}");
-
-    int index=(scrollPosition - paddingBottom) ~/ itemHeight;
-
-    print(scrollPosition - paddingBottom);
-    print(index);
-
-
-
-
-    if(index<0){
-      index=0;
-    }
-    if(index>=reverseDates.length){
-      index=reverseDates.length-1;
-    }
-
-
-    return index;
   }
 }
