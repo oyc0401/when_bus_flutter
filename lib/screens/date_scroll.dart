@@ -126,7 +126,7 @@ class _DateScrollPageState extends State<DateScrollPage> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
+                      CupertinoPageRoute(
                         builder: (builder) =>
                             HistoryPage(date: reverseDates[i]),
                         fullscreenDialog: true,

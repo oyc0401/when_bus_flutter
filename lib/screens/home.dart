@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
+                CupertinoPageRoute(
                   builder: (builder) => SettingPage(),
                 ),
               );
@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
+                  CupertinoPageRoute(
                     builder: (builder) => DateScrollPage(),
                   ),
                 );
