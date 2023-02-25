@@ -92,7 +92,7 @@ class _DateScrollPageState extends State<DateScrollPage> {
 
     double width = MediaQuery.of(context).size.width;
     if (!isSuccess) {
-      return Scaffold(
+      return const Scaffold(
         // appBar: AppBar(),
         body: Center(
           child: CircularProgressIndicator(),
@@ -104,7 +104,7 @@ class _DateScrollPageState extends State<DateScrollPage> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         // foregroundColor: Colors.transparent,
-        backgroundColor: Color(0xffffff),
+        backgroundColor: const Color(0xffffff),
         // shadowColor: Colors.transparent,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
@@ -116,12 +116,22 @@ class _DateScrollPageState extends State<DateScrollPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            // for (int i = 0; i < reverseDates.length; i++)
             for (int i = reverseDates.length - 1; i >= 0; i--)
-              // for (int i = 0; i < reverseDates.length; i++)
-              Padding(
-                // key: _keyList[i],
-                padding: EdgeInsets.symmetric(
+              Card(
+                margin: EdgeInsets.symmetric(
                     vertical: paddingHeight, horizontal: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                // surfaceTintColor: Colors.transparent,
+                color: currentIndex == i
+                    // ? const Color(0xffdbf5ff)
+                    ? const Color(0xff5835E2)
+                    :  Colors.white,
+                    // : const Color(0xfff6f6fa),
+                // 88 53 226
+                // 246 246 250
                 child: InkWell(
                   onTap: () {
                     Navigator.push(
@@ -133,23 +143,18 @@ class _DateScrollPageState extends State<DateScrollPage> {
                       ),
                     );
                   },
-                  child: AnimatedContainer(
-                    duration: Duration(milliseconds: 0),
+                  borderRadius: BorderRadius.circular(16),
+                  child: Ink(
                     height: currentIndex == i
                         ? itemHeight - paddingHeight
                         : itemHeight - paddingHeight * 2,
-                    width: currentIndex == i ? 10000 : width - 80,
-                    decoration: BoxDecoration(
-                      color: currentIndex == i
-                          ? Color(0xffd6f0f8)
-                          : Color(0xfff3f3f3),
-                      borderRadius: BorderRadius.circular(16),
-                    ),
+                    width: currentIndex == i ? width : width * 0.8,
                     child: Center(
                       child: Text(
                         timeKor(reverseDates[i]),
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: currentIndex == i ? 19 : 16,
+                            color: currentIndex == i?Colors.white:Color(0xff262626)
                         ),
                       ),
                     ),
@@ -162,3 +167,49 @@ class _DateScrollPageState extends State<DateScrollPage> {
     );
   }
 }
+
+// Padding(
+//     // key: _keyList[i],
+//     padding: EdgeInsets.symmetric(
+//         vertical: paddingHeight, horizontal: 16),
+//     child: InkWell(
+//
+//       borderRadius: BorderRadius.circular(16),
+//       onTap: () {
+//         Navigator.push(
+//           context,
+//           CupertinoPageRoute(
+//             builder: (builder) =>
+//                 HistoryPage(date: reverseDates[i]),
+//             fullscreenDialog: true,
+//           ),
+//         );
+//       },
+//       child: Container(
+//
+//         child: Ink(
+//
+//           // duration: Duration(milliseconds: 0),
+//           height: currentIndex == i
+//               ? itemHeight - paddingHeight
+//               : itemHeight - paddingHeight * 2,
+//           width: currentIndex == i ? 10000 : width - 80,
+//           decoration: BoxDecoration(
+//
+//             color: currentIndex == i
+//                 ? Color(0xffd6f0f8)
+//                 : Color(0xfff3f3f3),
+//             borderRadius: BorderRadius.circular(16),
+//           ),
+//           child: Center(
+//             child: Text(
+//               timeKor(reverseDates[i]),
+//               style: TextStyle(
+//                 fontSize: 16,
+//               ),
+//             ),
+//           ),
+//         ),
+//       ),
+//     ),
+//   ),

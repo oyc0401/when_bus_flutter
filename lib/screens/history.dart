@@ -30,6 +30,12 @@ class _HistoryPageState extends State<HistoryPage> {
   bool firstExist = false;
   bool lastExist = false;
 
+  bool isSuccess = false;
+
+  bool isRepeating = false;
+
+  List<BusModel> list = [];
+
   void init() async {
     isSuccess = false;
 
@@ -75,12 +81,6 @@ class _HistoryPageState extends State<HistoryPage> {
     setState(() {});
   }
 
-  bool isSuccess = false;
-
-  bool isRepeating = false;
-
-  List<BusModel> list = [];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,9 +97,11 @@ class _HistoryPageState extends State<HistoryPage> {
               width: 18,
             ),
             Text(DateFormat('yyyy년 MM월 dd일').format(dateTime)),
-            isRepeating
-                ? const Circle(color: Colors.greenAccent)
-                : const Circle(color: Colors.redAccent)
+            isSuccess
+                ? isRepeating
+                    ? const Circle(color: Colors.greenAccent)
+                    : const Circle(color: Colors.redAccent)
+                : const Circle(color: Colors.white)
           ],
         ),
       ),

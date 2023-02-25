@@ -34,7 +34,7 @@ class _SettingPageState extends State<SettingPage> {
                 Spacer(),
                 CupertinoSwitch(
                   value: TimeFormat.isFull,
-                  activeColor: CupertinoColors.activeBlue,
+                  activeColor: Color(0xff5835E2),
                   onChanged: (bool value) {
                     setState(() {
                       // switchValue = value;

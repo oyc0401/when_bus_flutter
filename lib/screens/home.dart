@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'date_scroll.dart';
+import 'history.dart';
 import 'setting.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,6 +14,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String get today {
+    DateTime now = DateTime.now();
+    String text = DateFormat('yyyyMMdd').format(now);
+    print(text);
+    return text;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,17 +50,39 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "1601 버스 시간표 히스토리",
+              "1601 버스 시간표",
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 24,
               ),
             ),
             SizedBox(
-              height: 40,
+              height: 70,
             ),
             CupertinoButton(
               color: Color(0xffE43607),
-              child: Text("1601 시간표 확인"),
+              // color: Color(0xff35cee2),
+              child: Text(
+                "오늘 시간표 확인",
+                style: TextStyle(
+                    // color: Color(0xff262626),
+                    ),
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  CupertinoPageRoute(
+                    builder: (builder) => HistoryPage(date: today),
+                  ),
+                );
+              },
+            ),
+            SizedBox(
+              height: 24,
+            ),
+            CupertinoButton(
+              // color: Color(0xffE43607),
+              color: Color(0xff5835E2),
+              child: Text("전체 시간표 확인"),
               onPressed: () {
                 Navigator.push(
                   context,
