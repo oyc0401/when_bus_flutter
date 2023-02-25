@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:when_bus/service/time_format.dart';
 import '../models/bus_model.dart';
 import '../service/bus_api/inmat_api_library.dart';
 import '../utils/colorss.dart';
@@ -85,6 +86,10 @@ class _HistoryPageState extends State<HistoryPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        surfaceTintColor: Colors.transparent,
+        // elevation: 0,
+        // backgroundColor:  Colors.transparent,
+
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -118,35 +123,51 @@ class _HistoryPageState extends State<HistoryPage> {
     );
   }
 
-  Widget alertSection() {
-    if (lastExist) {
-      return Container();
+  String get alertMessage {
+    String timeString(int min) {
+      if (min <= 60) {
+        return "${min % 60}분";
+      }
+
+      return "${min ~/ 60}시간 ${min % 60}분";
     }
 
     int expect = 0;
-    if (!firstExist) {
+
+    bool isBefore() {
+      DateTime now = DateTime.now();
+      int nowMinute = now.hour * 60 + now.minute;
+
+      return nowMinute < 4 * 60 + 40;
+    }
+
+    if (isBefore()) {
       DateTime now = DateTime.now();
       expect =
           Duration(hours: 4 - now.hour, minutes: 40 - now.minute).inMinutes;
-    } else {
-      DateTime dateTime =
-          DateTime.parse(list.elementAt(list.length - 1).departAt);
 
-      dateTime.add(Duration(minutes: 70));
-
-      DateTime now = DateTime.now();
-
-      Duration d = now.difference(dateTime);
-
-      expect = d.inMinutes;
+      return "${timeString(expect)} 후 출발합니다.";
     }
 
-    String timeString() {
-      if (expect <= 60) {
-        return "${expect % 60}분";
-      }
+    // if (!firstExist) {
+    //   DateTime dateTime =
+    //   DateTime.parse(list.elementAt(list.length - 1).departAt);
+    //
+    //   dateTime.add(Duration(minutes: 70));
+    //
+    //   DateTime now = DateTime.now();
+    //
+    //   Duration d = now.difference(dateTime);
+    //
+    //   expect = d.inMinutes;
+    // }
 
-      return "${expect ~/ 60}시간 ${expect % 60}분";
+    return "현재 운행 중 입니다.";
+  }
+
+  Widget alertSection() {
+    if (lastExist) {
+      return Container();
     }
 
     return Container(
@@ -155,7 +176,7 @@ class _HistoryPageState extends State<HistoryPage> {
       child: Center(
         child: Text(
           // \n예상 도착시간: ${timeString()} 후
-          "버스가 운행 중 입니다.",
+          alertMessage,
           style: const TextStyle(
             fontSize: 16,
             color: Colorss.text1,
@@ -196,11 +217,6 @@ class TimeBar extends StatelessWidget {
   final int? busId;
   final int busInterval;
 
-  String get time {
-    DateTime dateTime = DateTime.parse(departAt);
-    return DateFormat('HH시 mm분').format(dateTime);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -211,14 +227,14 @@ class TimeBar extends StatelessWidget {
           Row(
             children: [
               Text(
-                time,
+                TimeFormat.getTimeKor(departAt),
                 style: const TextStyle(
                     fontSize: 24,
                     color: Colorss.text1,
                     fontWeight: FontWeight.normal),
               ),
               const SizedBox(
-                width: 6,
+                width: 7,
               ),
               first
                   ? const Text(

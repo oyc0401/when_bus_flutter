@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:when_bus/screens/cusom_list.dart';
 
 import 'screens/home.dart';
+import 'service/time_format.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await TimeFormat.init();
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -19,9 +20,8 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Binggrae2',
         useMaterial3: true,
       ),
-      home: const Home(),
+      home: const HomePage(),
       // home:CustomScrollViewDemoPage(),
     );
   }
 }
-

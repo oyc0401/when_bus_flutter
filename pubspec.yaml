@@ -41,6 +41,7 @@ dependencies:
   intl: ^0.18.0
   carousel_slider: ^4.2.1
   scrollview_observer: ^1.10.0
+  shared_preferences: ^2.0.18
 
 dev_dependencies:
   flutter_test:
