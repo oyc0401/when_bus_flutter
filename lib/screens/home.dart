@@ -50,7 +50,8 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "1601 버스 시간표",
+              "인하대 후문 -> 서울역\n1601 버스\n시간표 히스토리",
+              textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 24,
               ),
@@ -62,7 +63,7 @@ class _HomePageState extends State<HomePage> {
               color: Color(0xffE43607),
               // color: Color(0xff35cee2),
               child: Text(
-                "오늘 시간표 확인",
+                "오늘 시간표 보기",
                 style: TextStyle(
                     // color: Color(0xff262626),
                     ),
@@ -82,7 +83,7 @@ class _HomePageState extends State<HomePage> {
             CupertinoButton(
               // color: Color(0xffE43607),
               color: Color(0xff5835E2),
-              child: Text("전체 시간표 확인"),
+              child: Text("전체 시간표 보기"),
               onPressed: () {
                 Navigator.push(
                   context,
